@@ -2,15 +2,9 @@ using UnityEngine;
 
 public class PlantGun : BasePlant
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override PlantType GetPlantType()
     {
-        
+      return plantType;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

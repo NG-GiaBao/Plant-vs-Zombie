@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2835343314926725371}
   - component: {fileID: 655826658571836345}
   - component: {fileID: 1172795522583954155}
+  - component: {fileID: 2604278788156900897}
   m_Layer: 0
   m_Name: PlantGun
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.76, y: 3.78, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4562725429413982426}
@@ -101,6 +102,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72168b1898e0b0d4e9fd5548ab9bfc01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plantType: 1
+--- !u!114 &2604278788156900897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4434167083201323396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aced32139a9487f4a9095170e81666cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPref: {fileID: 845617343863726310, guid: d82f75c1b9bc3574ba44fc99a118bf67, type: 3}
 --- !u!1 &7249994564654313596
 GameObject:
   m_ObjectHideFlags: 0
