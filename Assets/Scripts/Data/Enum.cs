@@ -3,6 +3,11 @@ public enum ListenType
     ANY = 0,
     CHANGED_PLATFORM,
     CHANGE_PLAYING_GAME,
+    PLAYER_WIN,
+    ZOMBIE_DEAD,
+    ZOMBIE_WIN,
+    PLANT_CREATE,
+    UPDATE_MONEY,
 }
 
 public enum UIType
@@ -81,4 +86,17 @@ public enum PlantType
     Unknown = 0,
     PLANT_GUN,
     PLANT_POWER,
+}
+public enum ZombieType
+{
+    Unknown = 0,
+    ZOMBIE_NORMAL,
+    ZOMBIE_FAST,
+    ZOMBIE_STRONG,
+}
+public enum  UiState
+{
+    Unknown = 0,
+    Win,
+    Lose,
 }

@@ -53,6 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plantType: 1
+  cost: 20
 --- !u!114 &7158530822512282302
 MonoBehaviour:
   m_ObjectHideFlags: 0

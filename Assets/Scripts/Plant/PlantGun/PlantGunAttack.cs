@@ -1,12 +1,25 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlantGunAttack : BasePlantAttack
 {
+    [SerializeField] private bool isShoot;
+    private Coroutine shootCoroutine;
 
+    
     private void Update()
     {
+        if(GameManager.HasInstance)
+        {
+            if(GameManager.Instance.IsGameOver)
+            {
+                return;
+            }
+        }
         InitRaycast();
     }
+   
 
     private void InitRaycast()
     {
@@ -15,15 +28,40 @@ public class PlantGunAttack : BasePlantAttack
         float range = 10f;
 
         Debug.DrawRay(origin, direction * range, Color.red, 2f);
+        int zombieLayer = LayerMask.GetMask("Zombie");
 
-        RaycastHit2D hit = Physics2D.Raycast(origin, direction, range);
+        RaycastHit2D hit = Physics2D.Raycast(origin, direction, range, zombieLayer);
         if (hit.collider != null)
         {
-            Debug.Log("Hit: " + hit.collider.name);
+            if (!isShoot)
+            {
+                isShoot = true;
+                shootCoroutine = StartCoroutine(ShootLoop());
+            }
+
         }
         else
         {
-            Debug.Log("No hit detected.");
+            if (isShoot)
+            {
+                isShoot = false;
+                StopCoroutine(shootCoroutine);
+            }
+        }
+
+    }
+    IEnumerator ShootLoop()
+    {
+        while (isShoot)
+        {
+            FireOneBullet();
+            yield return new WaitForSeconds(2f); // Thời gian giữa các lần bắn
         }
     }
+    private void FireOneBullet()
+    {
+        GameObject bullet = Instantiate(bulletPref, firePoint.position, Quaternion.identity);
+        bullet.GetComponent<Bullet>().BulletMove(); // Hoặc firePoint.right nếu súng xoay
+    }
+  
 }

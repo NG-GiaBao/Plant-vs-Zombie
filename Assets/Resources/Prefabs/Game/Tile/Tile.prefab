@@ -103,7 +103,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   x: -4
   y: 0
-  plantPrefabs: {fileID: 0}
+  typePlant: {fileID: 0}
+  plantPref: {fileID: 0}
 --- !u!61 &2250371909286975236
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -134,7 +135,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

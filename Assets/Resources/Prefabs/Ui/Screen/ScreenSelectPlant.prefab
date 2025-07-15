@@ -129,6 +129,7 @@ MonoBehaviour:
   offSet: {x: -200, y: 430, z: 0}
   plantSelectionPanel: {fileID: 6665737404852221042}
   moneyTxt: {fileID: 4051313042591086360}
+  money: 60
   plantObj: []
 --- !u!1 &6665737404852221042
 GameObject:

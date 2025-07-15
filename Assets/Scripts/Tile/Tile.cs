@@ -1,3 +1,4 @@
+using NUnit.Compatibility;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -45,6 +46,11 @@ public class Tile : MonoBehaviour
                 plantPref = Instantiate(obj, transform.position, Quaternion.identity);
                 plantPref.transform.SetParent(transform);
                 plantPref.transform.localPosition = Vector3.zero; // Reset position to the tile's position
+                if(ListenerManager.HasInstance)
+                {
+                 
+                    ListenerManager.Instance.BroadCast(ListenType.PLANT_CREATE, typePlant);
+                }    
             }
             else
             {

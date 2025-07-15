@@ -6,9 +6,18 @@ public class DragDropPlant : MonoBehaviour, IDragHandler, IEndDragHandler, IBegi
     [SerializeField] private TypePlant plantType;
     [SerializeField] private Vector3 originTranform;
     [SerializeField] private RectTransform plantRect;
-    
+
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if(GameManager.HasInstance)
+        {
+            if(GameManager.Instance.Money <= 0)
+            {
+                Debug.LogWarning("Not enough money to drag a plant.");
+                eventData.pointerDrag = null; // Prevent dragging if not enough money
+                return; // Prevent dragging if not enough money
+            }
+        }    
         Debug.Log("Dragging: " + eventData.pointerDrag.name);
         if (eventData.pointerDrag != null)
         {
@@ -46,6 +55,7 @@ public class DragDropPlant : MonoBehaviour, IDragHandler, IEndDragHandler, IBegi
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        
         // Chuyển vị trí chuột từ màn hình -> thế giới
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(eventData.position);
 
@@ -57,9 +67,14 @@ public class DragDropPlant : MonoBehaviour, IDragHandler, IEndDragHandler, IBegi
                 tile.SetPlant(plantType);
                 plantRect.anchoredPosition = originTranform;
             }
+            else
+            {
+                plantRect.anchoredPosition = originTranform;
+            }
         }
         else
         {
+            plantRect.anchoredPosition = originTranform;
             Debug.Log("Không có object nào được thả lên.");
         }
     }
