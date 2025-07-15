@@ -20,6 +20,14 @@ public class ScreenMenuGame : BaseScreen
     private void OnClickStartGameBtn()
     {
         SceneManager.LoadScene(sceneName);
+        if(GameManager.HasInstance)
+        {
+            GameManager.Instance.SetStateGame(GameState.Playing);
+        }
+        if(ListenerManager.HasInstance)
+        {
+            ListenerManager.Instance.BroadCast(ListenType.CHANGE_PLAYING_GAME,null);
+        }
         this.Hide();
     }
 }

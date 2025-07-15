@@ -1,11 +1,7 @@
 using UnityEngine;
 
-public class Tile : MonoBehaviour
+public abstract class BasePlant : MonoBehaviour
 {
-    [SerializeField] private int x;
-    [SerializeField] private int y;
-    [SerializeField] private GameObject plantPrefabs;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

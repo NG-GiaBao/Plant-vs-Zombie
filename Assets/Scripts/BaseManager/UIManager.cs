@@ -128,6 +128,7 @@ public class UIManager : BaseManager<UIManager>
         }
 
 
+
 #if UNITY_EDITOR
         ob.name = "SCREEN_" + nameScreen;
 #endif

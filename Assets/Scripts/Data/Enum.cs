@@ -1,7 +1,8 @@
 public enum ListenType
 {
     ANY = 0,
-    CHANGED_PLATFORM
+    CHANGED_PLATFORM,
+    CHANGE_PLAYING_GAME,
 }
 
 public enum UIType
@@ -67,4 +68,17 @@ public enum CheckWinDirection
     Vertical,
     DiagonalRight,
     DiagonalLeft
+}
+public enum GameState
+{
+    Unknown = 0,
+    Start,
+    Playing,
+    End
+}
+public enum PlantType
+{
+    Unknown = 0,
+    PLANT_GUN,
+    PLANT_POWER,
 }
