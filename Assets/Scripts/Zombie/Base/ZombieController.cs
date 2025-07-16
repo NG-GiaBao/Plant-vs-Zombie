@@ -5,6 +5,7 @@ public class ZombieController : BaseZombieController
     [SerializeField] private ZombieType zombieType;
     [SerializeField] private ZombieMove zombieMove;
     [SerializeField] private ZombieHeal zombieHeal;
+    [SerializeField] private ZombieCollider zombieCollider;
 
     private void Awake()
     {
@@ -32,7 +33,9 @@ public class ZombieController : BaseZombieController
     {
         zombieMove = GetComponent<ZombieMove>();
         zombieHeal = GetComponent<ZombieHeal>();
+        zombieCollider = GetComponent<ZombieCollider>();
     }
+    
   
 
 }

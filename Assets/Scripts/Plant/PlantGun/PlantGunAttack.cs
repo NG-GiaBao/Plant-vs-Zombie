@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlantGunAttack : BasePlantAttack
 {
@@ -14,6 +13,7 @@ public class PlantGunAttack : BasePlantAttack
         {
             if(GameManager.Instance.IsGameOver)
             {
+                StopAllCoroutines();
                 return;
             }
         }

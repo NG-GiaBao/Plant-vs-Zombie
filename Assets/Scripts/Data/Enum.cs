@@ -7,7 +7,9 @@ public enum ListenType
     ZOMBIE_DEAD,
     ZOMBIE_WIN,
     PLANT_CREATE,
+    PLANT_CREATE_MONEY,
     UPDATE_MONEY,
+    SEND_HEAL_HOUSE,
 }
 
 public enum UIType

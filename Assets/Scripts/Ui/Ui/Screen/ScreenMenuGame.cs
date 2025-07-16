@@ -28,6 +28,10 @@ public class ScreenMenuGame : BaseScreen
         {
             ListenerManager.Instance.BroadCast(ListenType.CHANGE_PLAYING_GAME,null);
         }
+        if(UIManager.HasInstance)
+        {
+            UIManager.Instance.ShowScreen<ScreenHealHouse>();
+        }
         this.Hide();
     }
 }

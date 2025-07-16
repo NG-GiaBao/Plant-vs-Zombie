@@ -11,14 +11,13 @@ public class DragDropPlant : MonoBehaviour, IDragHandler, IEndDragHandler, IBegi
     {
         if(GameManager.HasInstance)
         {
-            if(GameManager.Instance.Money <= 0)
+            if(GameManager.Instance.Money <= 0 || GameManager.Instance.IsGameOver)
             {
-                Debug.LogWarning("Not enough money to drag a plant.");
+                Debug.LogWarning("không đủ tiền");
                 eventData.pointerDrag = null; // Prevent dragging if not enough money
                 return; // Prevent dragging if not enough money
             }
         }    
-        Debug.Log("Dragging: " + eventData.pointerDrag.name);
         if (eventData.pointerDrag != null)
         {
             if (eventData.pointerDrag.TryGetComponent(out CanvasGroup canvasGroup))
@@ -32,7 +31,6 @@ public class DragDropPlant : MonoBehaviour, IDragHandler, IEndDragHandler, IBegi
                 plantRect = plantType.GetComponent<RectTransform>();
 
                 originTranform = plantRect.anchoredPosition; // Store the original position of the plant
-                Debug.Log("Plant position: " + plantRect.anchoredPosition);
             }
 
         }
@@ -46,10 +44,6 @@ public class DragDropPlant : MonoBehaviour, IDragHandler, IEndDragHandler, IBegi
             {
                 rectTransform.anchoredPosition += eventData.delta; // Move the plant with the mouse pointer
             }
-        }
-        else
-        {
-            Debug.LogWarning("Plant reference is null during drag.");
         }
     }
 
