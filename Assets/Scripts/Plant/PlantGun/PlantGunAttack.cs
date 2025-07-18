@@ -1,3 +1,4 @@
+using Lean.Pool;
 using System.Collections;
 using UnityEngine;
 
@@ -60,7 +61,7 @@ public class PlantGunAttack : BasePlantAttack
     }
     private void FireOneBullet()
     {
-        GameObject bullet = Instantiate(bulletPref, firePoint.position, Quaternion.identity);
+        GameObject bullet = LeanPool.Spawn(bulletPref, firePoint.position, Quaternion.identity);
         bullet.GetComponent<Bullet>().BulletMove(); // Hoặc firePoint.right nếu súng xoay
     }
   

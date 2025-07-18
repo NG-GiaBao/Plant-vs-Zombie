@@ -1,3 +1,4 @@
+using Lean.Pool;
 using UnityEngine;
 
 public class ZoneController : BaseManager<ZoneController>
@@ -25,7 +26,7 @@ public class ZoneController : BaseManager<ZoneController>
 
                 Vector3 tilePosition = new(posX, posY, 0);
 
-                GameObject tile = Instantiate(tilePrefab, this.transform);
+                GameObject tile = LeanPool.Spawn(tilePrefab, this.transform);
                 tile.transform.localPosition = tilePosition;
                 tile.name = $"Tile_{posX}_{posY}";
             }

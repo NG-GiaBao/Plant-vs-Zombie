@@ -1,28 +1,44 @@
+using Lean.Pool;
 using System.Collections;
 using UnityEngine;
 
 public class PlantPowerHeal : BasePlantHeal
 {
     [SerializeField] private bool isAttacked;
+    [SerializeField] private float escapleTime;
+
+    private void Update()
+    {
+        escapleTime += Time.deltaTime;
+    }
     public override void ReceiveHeal(int damage)
     {
-        if(!isAttacked)
+        StartTime();
+        if (!isAttacked)
         {
             healAmount -= damage;
             isAttacked= true;
             if (healAmount <= 0)
             {
-                StopAllCoroutines();
                 healAmount = 0;
-                Destroy(gameObject);
+                LeanPool.Despawn(gameObject);
                 Debug.Log("Plant fully healed and destroyed.");
+              
             }
-            StartCoroutine(DelayAttacked());
         }
     }
-    IEnumerator DelayAttacked()
+    private void StartTime()
     {
-        yield return new WaitForSeconds(0.5f);
-        isAttacked = false;
-    }
+            if (escapleTime >= 0.5f)
+            {
+                isAttacked = false;
+                escapleTime = 0f;
+            }
+    }    
+
+    //IEnumerator DelayAttacked()
+    //{
+    //    yield return new WaitForSeconds(0.5f);
+    //    isAttacked = false;
+    //}
 }

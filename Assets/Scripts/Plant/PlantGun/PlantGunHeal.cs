@@ -1,3 +1,4 @@
+using Lean.Pool;
 using UnityEngine;
 
 public class PlantGunHeal : BasePlantHeal
@@ -9,7 +10,7 @@ public class PlantGunHeal : BasePlantHeal
         if (healAmount <= 0)
         {
             healAmount = 0;
-            Destroy(gameObject);
+            LeanPool.Despawn(gameObject);
             Debug.Log("Plant fully healed and destroyed.");
         }
     }

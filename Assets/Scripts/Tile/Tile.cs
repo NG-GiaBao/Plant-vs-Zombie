@@ -1,6 +1,5 @@
-using NUnit.Compatibility;
+using Lean.Pool;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Tile : MonoBehaviour
 {
@@ -43,7 +42,7 @@ public class Tile : MonoBehaviour
             GameObject obj = PlantManager.Instance.GetPlantPrefabs(plantType);
             if (obj != null)
             {
-                plantPref = Instantiate(obj, transform.position, Quaternion.identity);
+                plantPref = LeanPool.Spawn(obj, transform.position, Quaternion.identity);
                 plantPref.transform.SetParent(transform);
                 plantPref.transform.localPosition = Vector3.zero; // Reset position to the tile's position
                 if(ListenerManager.HasInstance)

@@ -1,3 +1,4 @@
+using Lean.Pool;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -29,7 +30,7 @@ public class Bullet : MonoBehaviour
             if(collision.TryGetComponent(out ZombieHeal zombieHeal))
             {
                 zombieHeal.ReceiveDamage(1);
-                Destroy(gameObject);
+                LeanPool.Despawn(gameObject);
             }
         }
     }

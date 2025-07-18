@@ -1,4 +1,5 @@
 using UnityEngine;
+using Lean.Pool;
 
 public class ZombieHeal : BaseZombieHeal
 {
@@ -19,7 +20,11 @@ public class ZombieHeal : BaseZombieHeal
             {
                 ListenerManager.Instance.BroadCast(ListenType.ZOMBIE_DEAD, zombieController.GetZombieType());
             }
-            Destroy(gameObject);
+            LeanPool.Despawn(gameObject);
         }
+    }    
+    public void SetHeal(int heal)
+    {
+        healAmount = heal;
     }    
 }

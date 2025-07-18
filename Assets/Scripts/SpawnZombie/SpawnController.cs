@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Lean.Pool;
 
 [System.Serializable]
 public struct Wave
@@ -105,7 +106,28 @@ public class SpawnController : BaseManager<SpawnController>
         }
 
         Transform spawnPoint = gateSpawnList[Random.Range(0, gateSpawnList.Count)];
-        Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+        //Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+        GameObject obj = LeanPool.Spawn(prefab, spawnPoint.position, Quaternion.identity);
+        
+        if (LeanPool.Links.TryGetValue(obj, out LeanGameObjectPool pool))
+        {
+            pool.Stamp = true;
+        }
+        else
+        {
+            Debug.LogWarning($"Không tìm thấy pool cho prefab: {prefab.name}");
+        }
+        if (obj != null)
+        {
+            if (obj.TryGetComponent<ZombieController>(out var zombieController))
+            {
+                zombieController.ZombieHeal.SetHeal(3);
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Không thể spawn zombie từ prefab: {prefab.name}");
+        }
         activeZombieCount++;
     }
     private void HandleZombieDeath(object value)
