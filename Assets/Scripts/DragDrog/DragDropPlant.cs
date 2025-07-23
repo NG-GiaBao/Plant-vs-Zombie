@@ -42,7 +42,14 @@ public class DragDropPlant : MonoBehaviour, IDragHandler, IEndDragHandler, IBegi
         {
             if (plantRect.TryGetComponent(out RectTransform rectTransform))
             {
-                rectTransform.anchoredPosition += eventData.delta; // Move the plant with the mouse pointer
+               RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    rectTransform,
+                    eventData.position,
+                    eventData.pressEventCamera,
+                    out Vector2 localPoint
+                );
+                // Update the position of the plant based on the mouse position
+                plantRect.anchoredPosition += localPoint;
             }
         }
     }

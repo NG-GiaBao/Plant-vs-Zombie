@@ -119,13 +119,13 @@ public class UIManager : BaseManager<UIManager>
         }
         GameObject ob = Instantiate(pfScreen) as GameObject;
         RectTransform obrectTranform = ob.GetComponent<RectTransform>();
-        ob.transform.SetParent(this.cScreen.transform);
-        ob.transform.localScale = Vector3.one;
-        ob.transform.localPosition = Vector3.zero;
-        if (obrectTranform != null)
-        {
-            obrectTranform.anchoredPosition = Vector3.zero;
-        }
+        ob.transform.SetParent(this.cScreen.transform,false);
+        //ob.transform.localScale = Vector3.one;
+        //ob.transform.localPosition = Vector3.zero;
+        //if (obrectTranform != null)
+        //{
+        //    obrectTranform.anchoredPosition = Vector3.zero;
+        //}
 
 
 
@@ -318,9 +318,9 @@ public class UIManager : BaseManager<UIManager>
             throw new MissingReferenceException("Cant found " + namePopup + "screen. !!!");
         }
         GameObject ob = Instantiate(pfPopup) as GameObject;
-        ob.transform.SetParent(this.cPopup.transform);
-        ob.transform.localScale = Vector3.one;
-        ob.transform.localPosition = Vector3.zero;
+        ob.transform.SetParent(this.cPopup.transform,false);
+        //ob.transform.localScale = Vector3.one;
+        //ob.transform.localPosition = Vector3.zero;
 #if UNITY_EDITOR
         ob.name = "POPUP_" + namePopup;
 #endif

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Lean.Pool;
+using System;
+using Random = UnityEngine.Random;
 
 [System.Serializable]
 public struct Wave
@@ -129,6 +131,8 @@ public class SpawnController : BaseManager<SpawnController>
             Debug.LogWarning($"Không thể spawn zombie từ prefab: {prefab.name}");
         }
         activeZombieCount++;
+
+       
     }
     private void HandleZombieDeath(object value)
     {

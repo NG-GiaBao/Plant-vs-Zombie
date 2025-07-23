@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : BaseManager<GameManager>
 {
@@ -96,6 +98,11 @@ public class GameManager : BaseManager<GameManager>
                     application.Quit();
 #endif
                 },
+                OnReplay = () =>
+                {
+                    Scene currentScene = SceneManager.GetActiveScene();
+                    SceneManager.LoadScene(currentScene.name);
+                },
             };
             UIManager.Instance.ShowPopup<PopupStateGame>(popupData, true);
         }
@@ -143,5 +150,9 @@ public class GameManager : BaseManager<GameManager>
                 ListenerManager.Instance.BroadCast(ListenType.UPDATE_MONEY, money);
             }
         }
+        
+
     }    
 }
+
+

@@ -3,8 +3,8 @@ using UnityEngine;
 public class ZombieController : BaseZombieController
 {
     [SerializeField] private ZombieType zombieType;
-    [SerializeField] private ZombieMove zombieMove;
-    [SerializeField] private ZombieHeal zombieHeal;
+    [SerializeField] private ZombieMove zombieMove; public ZombieMove ZombieMove => zombieMove;
+    [SerializeField] private ZombieHeal zombieHeal; public ZombieHeal ZombieHeal => zombieHeal;
     [SerializeField] private ZombieCollider zombieCollider;
 
     private void Awake()

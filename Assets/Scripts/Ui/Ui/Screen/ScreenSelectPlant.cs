@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ScreenSelectPlant : BaseScreen
 {
-    [SerializeField] private Vector3 offSet;
+    //[SerializeField] private Vector3 offSet;
     [SerializeField] private GameObject plantSelectionPanel;
     [SerializeField] private TextMeshProUGUI moneyTxt;
     [SerializeField] private List<GameObject> plantObj;
@@ -22,10 +22,10 @@ public class ScreenSelectPlant : BaseScreen
             moneyTxt.text = $"{GameManager.Instance.Money}";
         }
        
-        if (TryGetComponent<RectTransform>(out var rectTransform))
-        {
-            rectTransform.anchoredPosition = offSet;
-        }
+        //if (TryGetComponent<RectTransform>(out var rectTransform))
+        //{
+        //    rectTransform.anchoredPosition = offSet;
+        //}
     }
     private void OnDestroy()
     {

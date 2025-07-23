@@ -134,14 +134,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28fb4abf135a5304484b957b57b4725c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  durationTime: 5
-  spawnTime: 5
-  time: 0
-  timeWave: 180
-  amountZombie: 3
-  currentZombieCount: 0
-  isSpawning: 0
+  waves:
+  - zombieType: 1
+    count: 3
+    spawnInterval: 4
+    timeBeforeNext: 4
+  - zombieType: 1
+    count: 6
+    spawnInterval: 3
+    timeBeforeNext: 3
+  - zombieType: 1
+    count: 10
+    spawnInterval: 2
+    timeBeforeNext: 2
+  timeWaveLimit: 180
+  timeStartSpawn: 10
   gateSpawnList: []
+  currentWaveIndex: 0
+  activeZombieCount: 0
+  allWavesSpawned: 0
+  elapsedTime: 0
+  isSpawning: 0
 --- !u!1 &8900304209193095354
 GameObject:
   m_ObjectHideFlags: 0

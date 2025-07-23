@@ -1,0 +1,3 @@
+[submodule "Assets/ThirdPartyLib"]
+	path = Assets/ThirdPartyLib
+	url = https://github.com/southsafe0123/AboutCollection

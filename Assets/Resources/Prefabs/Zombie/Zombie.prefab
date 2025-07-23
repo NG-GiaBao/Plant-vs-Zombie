@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aea156c5c19b233469dd79ed1cf04a03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healAmount: 2
+  healAmount: 4
   zombieController: {fileID: 0}
 --- !u!114 &4569152669150842136
 MonoBehaviour:

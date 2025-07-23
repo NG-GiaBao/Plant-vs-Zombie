@@ -1,16 +1,19 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Apple.ReplayKit;
 using UnityEngine.UI;
 
 public class PopupStateGame : BasePopup
 {
     [SerializeField] private TextMeshProUGUI textState;
-    [SerializeField] private Button Button;
-    [SerializeField] private TextMeshProUGUI textButton;
+    [SerializeField] private Button stateButton;
+    [SerializeField] private Button replayButton;
+    [SerializeField] private TextMeshProUGUI stateTxt;
+    [SerializeField] private TextMeshProUGUI rePlayTxt;
 
     private void Start()
     {
-        Button.onClick.AddListener(OnClickButton);
+        stateButton.onClick.AddListener(OnClickButton);
     }
     public override void Show(object data)
     {
@@ -23,16 +26,29 @@ public class PopupStateGame : BasePopup
                 {
                     case UiState.Win:
                         textState.text = popupData.winState;
-                        textButton.text = popupData.nameWinButton;
+                        stateTxt.text = popupData.nameWinButton;
+                        replayButton.gameObject.SetActive(false);
                         break;
                     case UiState.Lose:
                         textState.text = popupData.loseState;
-                        textButton.text = popupData.nameLoseButton;
-                        Button.onClick.RemoveAllListeners();
-                        Button.onClick.AddListener(() => 
+                        stateTxt.text = popupData.nameLoseButton;
+                        stateButton.onClick.RemoveAllListeners();
+                        stateButton.onClick.AddListener(() => 
                         {
                             popupData.OnLose?.Invoke();
                         });
+                        replayButton.gameObject.SetActive(true);
+                        rePlayTxt.text = popupData.nameReplayButton;
+                        replayButton.onClick.RemoveAllListeners();
+                        replayButton.onClick.AddListener(() => 
+                        {
+                            popupData.OnReplay?.Invoke();
+                            this.Hide();
+                            GameManager.Instance.SetStateGame(GameState.Playing);
+
+                        });
+                      
+                        
                         break;
                     default:
                         break;
