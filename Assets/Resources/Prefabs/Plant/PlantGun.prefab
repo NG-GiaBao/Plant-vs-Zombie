@@ -136,8 +136,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plantType: 1
+  basePlantHeal: {fileID: 0}
   gunAttack: {fileID: 0}
-  gunHeal: {fileID: 0}
+  isDeath: 0
 --- !u!114 &2604278788156900897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +154,9 @@ MonoBehaviour:
   bulletPref: {fileID: 845617343863726310, guid: d82f75c1b9bc3574ba44fc99a118bf67, type: 3}
   firePoint: {fileID: 2888808613259981027}
   isShoot: 0
+  timer: 0
+  durationShoot: 2
+  state: 0
 --- !u!114 &1738905434995760622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,6 +170,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healAmount: 2
+  isAttacked: 0
+  escapleTime: 0
+  plantGun: {fileID: 0}
 --- !u!61 &1463688822257445333
 BoxCollider2D:
   m_ObjectHideFlags: 0

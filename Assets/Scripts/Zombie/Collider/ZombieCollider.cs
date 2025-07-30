@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ZombieCollider : MonoBehaviour
@@ -7,7 +8,6 @@ public class ZombieCollider : MonoBehaviour
     {
         col = GetComponent<Collider2D>();
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
    
     private void OnCollisionEnter2D(Collision2D collision)
     {

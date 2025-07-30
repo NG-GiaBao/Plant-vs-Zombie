@@ -6,36 +6,48 @@ using System;
 using Random = UnityEngine.Random;
 
 [System.Serializable]
-public struct Wave
-{
-    public ZombieType zombieType;
-    public int count;
-    public float spawnInterval;
-    public float timeBeforeNext;
-}
+//public struct Wave
+//{
+//    public ZombieType zombieType;
+//    public int count;
+//    public float spawnInterval;
+//    public float timeBeforeNext;
+//}
 
 public class SpawnController : BaseManager<SpawnController>
 {
-    [Header("Wave Configuration")]
-    [SerializeField]
-    private List<Wave> waves = new();
+    //[Header("Wave Configuration")]
+    //[SerializeField]
+    //private List<Wave> waves = new();
 
     [Header("Spawn Settings")]
-    [SerializeField] private float timeWaveLimit = 180f;
-    [SerializeField] private float timeStartSpawn = 10f;
-    [SerializeField] private List<Transform> gateSpawnList = new();
+    //[SerializeField] private float timeWaveLimit = 180f;
+    [SerializeField] private float timeStartSpawn = 5f;
+    [SerializeField] private float timeDuringSpawnZombie = 3f;
+    [SerializeField] private float timeDuringWave = 3f;
+    [SerializeField] private List<Transform> gateSpawnList;
 
 
     [SerializeField] private int currentWaveIndex = 0;
     [SerializeField] private int activeZombieCount = 0;
+    [SerializeField] private int spawnZombieCount = 0;
+    [SerializeField] private int waveCount = 3;
     [SerializeField] private bool allWavesSpawned;
 
     [SerializeField] private float elapsedTime = 0f;
-    [SerializeField] private bool isSpawning = false;
+    //[SerializeField] private bool isSpawning = false;
+    [SerializeField] private State state = State.Start;
 
     private readonly Dictionary<ZombieType, GameObject> zombiePrefabs = new();
 
     private const string ZOMBIE_PATH_FOLDER = "Prefabs/Zombie";
+
+    private enum State
+    {
+        Start,
+        Spawning,
+        End,
+    }
 
 
 
@@ -43,7 +55,7 @@ public class SpawnController : BaseManager<SpawnController>
     {
         InitTranformGate();
         InitZombie();
-        StartCoroutine(DelayStartSpawn());
+
         if (ListenerManager.HasInstance)
         {
             ListenerManager.Instance.Register(ListenType.ZOMBIE_DEAD, HandleZombieDeath);
@@ -58,22 +70,12 @@ public class SpawnController : BaseManager<SpawnController>
     }
     private void Update()
     {
-        if (GameManager.Instance.IsGameOver)
-        {
-            StopAllCoroutines();
-            return;
-        }
+        if (GameManager.Instance.IsGameOver) return;
 
-        elapsedTime += Time.deltaTime;
-        if (elapsedTime >= timeWaveLimit && isSpawning)
-        {
-            StopAllCoroutines();
-            isSpawning = false;
-        }
+        StartSpawnWave();
     }
     private void InitTranformGate()
     {
-        gateSpawnList.Clear();
         foreach (Transform child in transform)
         {
             gateSpawnList.Add(child);
@@ -82,7 +84,6 @@ public class SpawnController : BaseManager<SpawnController>
 
     private void InitZombie()
     {
-        zombiePrefabs.Clear();
         foreach (var prefab in Resources.LoadAll<GameObject>(ZOMBIE_PATH_FOLDER))
         {
             if (!prefab.TryGetComponent<ZombieController>(out var controller)) continue;
@@ -108,31 +109,29 @@ public class SpawnController : BaseManager<SpawnController>
         }
 
         Transform spawnPoint = gateSpawnList[Random.Range(0, gateSpawnList.Count)];
-        //Instantiate(prefab, spawnPoint.position, Quaternion.identity);
         GameObject obj = LeanPool.Spawn(prefab, spawnPoint.position, Quaternion.identity);
-        
+       
         if (LeanPool.Links.TryGetValue(obj, out LeanGameObjectPool pool))
         {
             pool.Stamp = true;
-        }
-        else
-        {
-            Debug.LogWarning($"Không tìm thấy pool cho prefab: {prefab.name}");
-        }
+        } 
+        else Debug.LogWarning($"Không tìm thấy pool cho prefab: {prefab.name}");
+
         if (obj != null)
         {
             if (obj.TryGetComponent<ZombieController>(out var zombieController))
-            {
-                zombieController.ZombieHeal.SetHeal(3);
+            { 
+                zombieController.OnSpawn?.Invoke();
             }
         }
         else
         {
             Debug.LogWarning($"Không thể spawn zombie từ prefab: {prefab.name}");
         }
+        spawnZombieCount++;
         activeZombieCount++;
 
-       
+
     }
     private void HandleZombieDeath(object value)
     {
@@ -141,7 +140,7 @@ public class SpawnController : BaseManager<SpawnController>
     }
     private void CheckForVictory()
     {
-        if (allWavesSpawned && activeZombieCount <= 0)
+        if (allWavesSpawned && activeZombieCount <= 0 )
         {
             if (ListenerManager.HasInstance)
             {
@@ -150,48 +149,66 @@ public class SpawnController : BaseManager<SpawnController>
             Debug.Log("Thắng");
         }
     }
-    private IEnumerator DelayStartSpawn()
+    private void StartSpawnWave()
     {
-        yield return new WaitForSeconds(timeStartSpawn);
-        StartCoroutine(RunAllWaves());
-    }
-
-    private IEnumerator RunAllWaves()
-    {
-        while (currentWaveIndex < waves.Count)
+        elapsedTime += Time.deltaTime;
+       
+        switch (state)
         {
-            Wave wave = waves[currentWaveIndex];
-            Debug.Log($"Bắt đầu wave {currentWaveIndex + 1}: {wave.zombieType} x{wave.count} ---");
-            yield return StartCoroutine(RunWave(wave));
+            case State.Start:
+                {
+                    if (elapsedTime >= timeStartSpawn)
+                    {
+                        SpawnZombie(ZombieType.ZOMBIE_NORMAL);
+                        elapsedTime = 0;
+                        state = State.Spawning;
+                    }
+                }
+                break;
+            case State.Spawning:
+                {
+                    if (elapsedTime >= timeDuringSpawnZombie)
+                    {
+                        SpawnZombie(ZombieType.ZOMBIE_NORMAL);
+                        elapsedTime = 0;
+                    }
 
-            currentWaveIndex++;
-            if (currentWaveIndex < waves.Count)
-            {
-                Debug.Log($"Wave {currentWaveIndex} hoàn tất. Chờ {wave.timeBeforeNext}s qua wave mới.");
-                yield return new WaitForSeconds(wave.timeBeforeNext);
-            }
+                    if (spawnZombieCount >= GetZombiePerWave(currentWaveIndex))
+                    {
+                        currentWaveIndex++;
+                        spawnZombieCount = 0;
+                        elapsedTime = 0;
+                        state = State.End;
+                    }
+                }
+                break;
+            case State.End:
+                {
+                    if (elapsedTime >= timeDuringWave)
+                    {
+                        state = State.Start;
+                        elapsedTime = 0;
+                    }
+                }
+                break;
         }
-        allWavesSpawned = true;
-        CheckForVictory();
-
-        Debug.Log("tất cả wave hoàn tất");
-    }
-    private IEnumerator RunWave(Wave wave)
-    {
-        isSpawning = true;
-        int spawned = 0;
-
-        while (spawned < wave.count)
+        if(currentWaveIndex > waveCount)
         {
-            SpawnZombie(wave.zombieType);
-            spawned++;
-            yield return new WaitForSeconds(wave.spawnInterval);
-        }
-
-        isSpawning = false;
-        Debug.Log($"Wave {currentWaveIndex + 1} xong: t {spawned} zombies.");
+            allWavesSpawned = true;
+        }    
+    }
+    private int GetZombiePerWave(int waveIndex)
+    {
+        return 2 + waveIndex * 2; 
     }
 
-
-
+    public void ResetWave()
+    {
+        activeZombieCount = 0;
+        currentWaveIndex = 0;
+        elapsedTime = 0;
+        allWavesSpawned = false;
+        state = State.Start;
+       
+    }    
 }

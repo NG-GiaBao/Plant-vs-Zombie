@@ -2,8 +2,10 @@ using UnityEngine;
 using Lean.Pool;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
+using System;
 
-public class DailySetting : MonoBehaviour
+public class DailySetting : MonoBehaviour 
 {
     [SerializeField] private GameObject slotPref;
     [SerializeField] private int rows;
@@ -49,9 +51,14 @@ public class DailySetting : MonoBehaviour
                 else
                 {
                     Debug.LogWarning($"TextMeshProUGUI component not found in {slot.name}. Please ensure the prefab has a TextMeshProUGUI component.");
+                    StartCoroutine(Test());
                 }
             }
         }
     }
+    private IEnumerator Test()
+    {
+        yield return new WaitForSeconds(2f);
+    }    
 
 }

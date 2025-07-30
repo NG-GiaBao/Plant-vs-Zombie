@@ -632,7 +632,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3504274944633440631, guid: cad71ba6c70da4842b23b8a68cb2c0e3, type: 3}
       propertyPath: m_Name
-      value: Zone
+      value: ZoneController
       objectReference: {fileID: 0}
     - target: {fileID: 7685457623989869001, guid: cad71ba6c70da4842b23b8a68cb2c0e3, type: 3}
       propertyPath: m_LocalPosition.x

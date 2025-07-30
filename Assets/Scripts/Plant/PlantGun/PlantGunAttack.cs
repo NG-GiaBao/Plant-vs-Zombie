@@ -1,28 +1,14 @@
 using Lean.Pool;
-using System.Collections;
 using UnityEngine;
 
 public class PlantGunAttack : BasePlantAttack
 {
     [SerializeField] private bool isShoot;
-    private Coroutine shootCoroutine;
+    [SerializeField] private float timer;
+    [SerializeField] private float durationShoot;
 
-    
-    private void Update()
-    {
-        if(GameManager.HasInstance)
-        {
-            if(GameManager.Instance.IsGameOver)
-            {
-                StopAllCoroutines();
-                return;
-            }
-        }
-        InitRaycast();
-    }
-   
 
-    private void InitRaycast()
+    public void InitRaycast()
     {
         Vector2 origin = transform.position;
         Vector2 direction = Vector2.right; // hướng X dương
@@ -36,33 +22,29 @@ public class PlantGunAttack : BasePlantAttack
         {
             if (!isShoot)
             {
+                FireOneBullet();
                 isShoot = true;
-                shootCoroutine = StartCoroutine(ShootLoop());
             }
-
-        }
-        else
-        {
-            if (isShoot)
+            else
             {
-                isShoot = false;
-                StopCoroutine(shootCoroutine);
+                ShootTime();
             }
         }
-
     }
-    IEnumerator ShootLoop()
+    public void ShootTime()
     {
-        while (isShoot)
+        timer += Time.deltaTime;
+        if (timer >= durationShoot)
         {
-            FireOneBullet();
-            yield return new WaitForSeconds(2f); // Thời gian giữa các lần bắn
+            isShoot = false;
+            timer = 0;
         }
+
     }
     private void FireOneBullet()
     {
         GameObject bullet = LeanPool.Spawn(bulletPref, firePoint.position, Quaternion.identity);
         bullet.GetComponent<Bullet>().BulletMove(); // Hoặc firePoint.right nếu súng xoay
     }
-  
+
 }

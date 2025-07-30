@@ -1,29 +1,40 @@
+using System;
 using UnityEngine;
 
 public class PlantPower : BasePlant
 {
-    [SerializeField] private BasePlantHeal plantHeal;
     [SerializeField] private PlantPowarMoney powarMoney;
+    [SerializeField] private bool isDeath;
 
-    private void Awake()
+
+    protected override void Awake()
     {
-        plantHeal = GetComponent<BasePlantHeal>();
+        base.Awake();
         powarMoney = GetComponent<PlantPowarMoney>();
     }
+    private void Start()
+    {
+        onSpawn = () => Spawn();
+        onDeSpawn = () => DeSpawn();
+    }
+
 
     private void Update()
     {
-        if(GameManager.Instance.IsGameOver)
+        if(GameManager.Instance.IsGameOver || isDeath)
         {
-            StopAllCoroutines();
             return;
         }
-        powarMoney.CallCouroutineMoney();
+        powarMoney.IncreaseMoney();
     }
-    public override PlantType GetPlantType()
+    protected override void Spawn()
     {
-       return plantType;
+        base.Spawn();
     }
 
-   
+    protected override void DeSpawn()
+    {
+        base.DeSpawn();
+        isDeath = true;
+    }
 }

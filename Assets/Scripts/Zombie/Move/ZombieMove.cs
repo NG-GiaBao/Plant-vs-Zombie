@@ -22,7 +22,4 @@ public class ZombieMove : BaseZombieMove
         rb2D.MovePosition(rb2D.position + Vector2.left * speed * Time.fixedDeltaTime);
     }
 
-
-
-
 }

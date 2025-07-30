@@ -8,8 +8,6 @@ public class GameManager : BaseManager<GameManager>
 {
     [SerializeField] private GameState gameState;
     [SerializeField] private int money;
-    [SerializeField] private int rateMoney = 10;
-    [SerializeField] private float timeIncreaseMoney = 5f;
     [SerializeField] private bool isGameOver = false;
     public bool IsGameOver => isGameOver;
     public int Money => money;
@@ -32,7 +30,7 @@ public class GameManager : BaseManager<GameManager>
             UIManager.Instance.ShowScreen<ScreenMenuGame>();
         }
         gameState = GameState.Start;
-        StartCoroutine(IncreaseMoney());
+        //StartCoroutine(IncreaseMoney());
     }
 
     public void SetStateGame(GameState gameState)
@@ -102,6 +100,8 @@ public class GameManager : BaseManager<GameManager>
                 {
                     Scene currentScene = SceneManager.GetActiveScene();
                     SceneManager.LoadScene(currentScene.name);
+                    SpawnController.Instance.ResetWave();
+                    isGameOver = false;
                 },
             };
             UIManager.Instance.ShowPopup<PopupStateGame>(popupData, true);
@@ -139,20 +139,6 @@ public class GameManager : BaseManager<GameManager>
             UIManager.Instance.ShowScreen<ScreenSelectPlant>();
         }
     }
-    IEnumerator IncreaseMoney()
-    {
-        while(!isGameOver)
-        {
-            yield return new WaitForSeconds(timeIncreaseMoney);
-            money += rateMoney;
-            if (ListenerManager.HasInstance)
-            {
-                ListenerManager.Instance.BroadCast(ListenType.UPDATE_MONEY, money);
-            }
-        }
-        
-
-    }    
 }
 
 

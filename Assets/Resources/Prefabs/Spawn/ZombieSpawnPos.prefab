@@ -148,13 +148,16 @@ MonoBehaviour:
     spawnInterval: 2
     timeBeforeNext: 2
   timeWaveLimit: 180
-  timeStartSpawn: 10
+  timeStartSpawn: 5
+  timeDuringSpawnZombie: 3
+  timeDuringWave: 3
   gateSpawnList: []
   currentWaveIndex: 0
   activeZombieCount: 0
   allWavesSpawned: 0
   elapsedTime: 0
   isSpawning: 0
+  state: 0
 --- !u!1 &8900304209193095354
 GameObject:
   m_ObjectHideFlags: 0

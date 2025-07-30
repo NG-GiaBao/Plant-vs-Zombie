@@ -13,18 +13,20 @@ public class ZombieHeal : BaseZombieHeal
     public void ReceiveDamage(int damage)
     {
         healAmount -= damage;
-        if(healAmount < 0)
+        if (healAmount < 0)
         {
             healAmount = 0;
-            if(ListenerManager.HasInstance)
+            if (ListenerManager.HasInstance)
             {
                 ListenerManager.Instance.BroadCast(ListenType.ZOMBIE_DEAD, zombieController.GetZombieType());
             }
-            LeanPool.Despawn(gameObject);
+            zombieController.OnDeSpawn?.Invoke();
+            LeanPool.Despawn(gameObject, 0.5f);
+
         }
-    }    
+    }
     public void SetHeal(int heal)
     {
         healAmount = heal;
-    }    
+    }
 }

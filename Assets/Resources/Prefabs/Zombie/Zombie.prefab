@@ -173,6 +173,7 @@ MonoBehaviour:
   zombieMove: {fileID: 0}
   zombieHeal: {fileID: 0}
   zombieCollider: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!114 &6361602904998619993
 MonoBehaviour:
   m_ObjectHideFlags: 0
